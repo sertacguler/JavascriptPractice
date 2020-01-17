@@ -1,0 +1,157 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Import Data From Excel</title>
+    <!-- ================================================= Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <!-- =================================================-->
+
+    <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/themes/infragistics/infragistics.theme.css"
+        rel="stylesheet" />
+    <link href="https://cdn-na.infragistics.com/igniteui/2016.2/latest/css/structure/infragistics.css"
+        rel="stylesheet" />
+
+    <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/infragistics.core.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/infragistics.lob.js"></script>
+
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.ext_core.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.ext_collections.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.ext_text.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.ext_io.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.ext_ui.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.documents.core_core.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.ext_collectionsextended.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.excel_core.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.ext_threading.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.ext_web.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.xml.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.documents.core_openxml.js"></script>
+    <script type="text/javascript"
+        src="http://cdn-na.infragistics.com/igniteui/2019.2/latest/js/modules/infragistics.excel_serialization_openxml.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        Click Choose File/Browse button below and pick the sample Excel file or another excel file.
+        <input type="file" id="input" class="btn btn-primary"
+            accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+        <table id="grid1" class="table table-bordered"></table>
+    </div>
+    <script>
+
+        // Here alert position
+        const alertPosition = document.querySelectorAll(".container")[0];
+
+        $(function () {
+
+            $("#input").on("change", function () {
+                var excelFile,
+                    fileReader = new FileReader();
+
+                fileReader.onload = function (e) {
+                    var buffer = new Uint8Array(fileReader.result);
+
+                    $.ig.excel.Workbook.load(buffer, function (workbook) {
+                        var column, row, newRow, cellValue, columnIndex, i,
+                            worksheet = workbook.worksheets(0),
+                            columnsNumber = 0,
+                            gridColumns = [],
+                            data = [],
+                            worksheetRowsCount;
+
+                        while (worksheet.rows(0).getCellValue(columnsNumber)) {
+                            columnsNumber++;
+                        }
+
+                        for (columnIndex = 0; columnIndex < columnsNumber; columnIndex++) {
+                            column = worksheet.rows(0).getCellText(columnIndex);
+                            gridColumns.push({ headerText: column, key: column });
+                            //console.log(column); // column name
+                        }
+
+                        for (i = 1, worksheetRowsCount = worksheet.rows().count(); i < worksheetRowsCount; i++) {
+                            newRow = {};
+                            row = worksheet.rows(i);
+
+                            for (columnIndex = 0; columnIndex < columnsNumber; columnIndex++) {
+                                cellValue = row.getCellText(columnIndex);
+                                newRow[gridColumns[columnIndex].key] = cellValue;
+                                //console.log(cellValue); // Cell Value
+                            }
+
+                            data.push(newRow);
+                            console.log(newRow);
+                        }
+                        createGrid(data, gridColumns); // Write table
+                    }, function (error) {
+                        showAlert("The excel file is corrupted.");
+                    });
+                }
+
+                if (this.files.length > 0) {
+                    excelFile = this.files[0];
+                    if (excelFile.type === "application/vnd.ms-excel" || excelFile.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || (excelFile.type === "" && (excelFile.name.endsWith("xls") || excelFile.name.endsWith("xlsx")))) {
+                        fileReader.readAsArrayBuffer(excelFile);
+                    } else {
+                        showAlert("The format of the file you have selected is not supported. Please select a valid Excel file ('.xls, *.xlsx').");
+                    }
+                }
+
+            })
+        });
+
+        function showAlert(message) {
+            const alert = document.createElement("div");
+            alert.className = `alert alert-danger`;
+            alert.textContent = message;
+            alertPosition.appendChild(alert);
+
+            setTimeout(function () {
+                alert.remove();
+            }, 2000);
+        }
+
+        function createGrid(data, gridColumns) { // Write table
+            if ($("#grid1").data("igGrid") !== undefined) {
+                $("#grid1").igGrid("destroy");
+            }
+
+            $("#grid1").igGrid({
+                columns: gridColumns,
+                autoGenerateColumns: true,
+                dataSource: data,
+                width: "100%"
+            });
+        }
+    </script>
+</body>
+
+</html>
