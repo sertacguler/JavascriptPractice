@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Words</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row" style="margin-top: 10px;">
+            <div class="col">
+           
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Word</label>
+                    <div class="input-group mb-3">
+
+                        <input type="text" class="form-control" placeholder="New Word" id="word">
+                        <input type="text" class="form-control" placeholder="The new word's mean" id="wordsmean">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger" type="button" onclick="btn_add_words()"
+                                id="btn_add_words">
+                                New Word</button> <!-- Add This Word / Add New Word-->
+                        </div>
+                    </div>
+                    <div id="wordlettercheck">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Sentences</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Add a sentence for the word" id="sentence">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="button" onclick="btn_add_sentences()"
+                                id="btn_add_sentences">
+                                Add Sentence</button>
+                            <!-- when click the add new word button blank this input-->
+                        </div>
+                    </div>
+                    <div id="sentencenullcheck">
+
+                    </div>
+                </div>
+                <hr>
+                <div class="border border-dark rounded" id="asdf"
+                    style=" padding: 10px; margin-top: 20px; margin-right: 5px; margin-left: 5px; overflow-y: scroll;">
+
+                    <!-- Buraya kelime ve cümleleri gelecek cart tipinde -->
+
+                </div>
+
+                <div id="allofwordok" style="margin: 5px;">
+                    <button type="button" onclick="allwordsOk()" class="btn btn-primary btn-block btn-lg">All of the
+                        words is OK</button>
+                </div>
+
+                <div id="allofwordok" style="margin: 5px;">
+                    <button type="button" onclick="allwords()" class="btn btn-success btn-block btn-lg">All of the old
+                        words</button>
+                </div>
+
+            </div>
+         
+        </div>
+
+    </div>
+
+</body>
+<script src="app.js"></script>
+
+</html>

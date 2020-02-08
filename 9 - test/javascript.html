@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Arrow Function</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Film Project
+            </div>
+            <div class="card-body">
+
+                <form id="film-form" name="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="title" aria-describedby="emailHelp"
+                            placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="director" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="url" placeholder="Password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <hr>
+                <footer>
+                    <h3>Films</h3>
+                    <hr>
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Afiş</th>
+                                <th scope="col">Film Adı</th>
+                                <th scope="col">Yönetmen</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="films">
+
+                        </tbody>
+                    </table>
+
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script src="ui.js"></script>
+
+    <script src="storage.js"></script>
+
+    <script src="film.js"></script>
+
+    <script src="project.js"></script>
+
+</body>
+
+</html>

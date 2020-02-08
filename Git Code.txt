@@ -1,0 +1,43 @@
+  git clone https://github.com/sertacguler/JavascriptTest.git JSTEST
+  //dosyaları JSTEST dosyasına taşıdım
+  cd JSTEST/
+
+  git add .
+  git commit -m "initial commit"
+  git push
+  
+  git checkout
+  git status
+  git log
+  git branch
+  git branch fitgirl
+  git status
+  git branch
+  git checkout fitgirl
+  git status
+  git log
+  145  ls
+  146  mkdir '6 - test'
+  147  ls
+  148  cd 6\ -\ test/
+  149  ls
+  150  touch branchDeneme
+  151  ls
+  152  cd ..
+  git add 6\ -\ test/
+  git status
+  git push
+  git status
+  git commit -m "fitgirlJavascript"
+  git push
+  git status
+  
+  git checkout master
+  git status
+  git log
+  git status
+  git log
+  git merge fitgirl
+  git status
+  git log
+  git push

@@ -5,13 +5,24 @@ function openModal() {
     modal.style.display = "block";
 }
 
-function rvalidate(e) { // veri geliyor ama hemen kayboluyor
-    console.log(form.name.value);
-    if (form.name.value == "") {
+//======================== GetTodoFromModal
+$('#form').on('submit', function (e) {
+    const whatTodo = form.name.value;
+    if (whatTodo == "") {
         alert("Please provide your name!");
         form.name.focus();
+    } else {
+        let newTodo = whatTodo.trim();
+        if (newTodo != "") {
+            todoList.push(newTodo);
+            createACard(newTodo, "todoList");
+            whatTodo.value = "";
+        }
+        localStorage.setItem("todoList", JSON.stringify(todoList));
     }
-}
+    $("#exampleModal").modal('hide');
+    e.preventDefault();
+});
 
 const todoCart = document.querySelector("#todo");
 const doingCart = document.querySelector("#doing");
@@ -91,62 +102,63 @@ function createACard(a, type) {
 const fromTodoToDoing = document.querySelector("#todo");
 fromTodoToDoing.addEventListener("click", fTTD);
 function fTTD(e) {
-    let todoData = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector("#span").textContent;
-    let todoTitle = e.target.parentElement.parentElement.parentElement.parentElement.querySelector("span").textContent;
+    if (e.target.className === "glyphicon glyphicon-ok text-danger") {
+        let todoData = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector("#span").textContent;
+        let todoTitle = e.target.parentElement.parentElement.parentElement.parentElement.querySelector("span").textContent;
 
-    if (todoData != "") {
-        doingList.push(todoData);
-        createACard(todoData, "doingList")
+        if (todoData != "") {
+            doingList.push(todoData);
+            createACard(todoData, "doingList")
+        }
+        localStorage.setItem("doingList", JSON.stringify(doingList));
+
+        xJson = JSON.parse(localStorage.getItem("todoList"));
+        xJson.splice(xJson.indexOf(todoData), 1);
+        localStorage.removeItem('todoList');
+        localStorage.setItem("todoList", JSON.stringify(xJson));
+
+        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
     }
-    localStorage.setItem("doingList", JSON.stringify(doingList));
-
-    xJson = JSON.parse(localStorage.getItem("todoList"));
-    xJson.splice(xJson.indexOf(todoData), 1);
-    localStorage.removeItem('todoList');
-    localStorage.setItem("todoList", JSON.stringify(xJson));
-
-    todoCart.innerHTML = " ";
-    todoList = getTodosFromStorage("todoList");
-
 }
 
 //======================== FromDoingToDone
 const fromDoingToDone = document.querySelector("#doing");
 fromDoingToDone.addEventListener("click", fDTD);
 function fDTD(e) {
-    let doingData = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector("#span").textContent;
-    let todoTitle = e.target.parentElement.parentElement.parentElement.parentElement.querySelector("span").textContent;
+    if (e.target.className === "glyphicon glyphicon-ok text-danger") {
+        let doingData = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector("#span").textContent;
+        let todoTitle = e.target.parentElement.parentElement.parentElement.parentElement.querySelector("span").textContent;
 
-    if (doingData != "") {
-        doneList.push(doingData);
-        createACard(doingData, "doneList")
+        if (doingData != "") {
+            doneList.push(doingData);
+            createACard(doingData, "doneList")
+        }
+        localStorage.setItem("doneList", JSON.stringify(doneList));
+
+        xJson = JSON.parse(localStorage.getItem("doingList"));
+        xJson.splice(xJson.indexOf(doingData), 1);
+        localStorage.removeItem('doingList');
+        localStorage.setItem("doingList", JSON.stringify(xJson));
+
+        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
     }
-    localStorage.setItem("doneList", JSON.stringify(doneList));
-
-    xJson = JSON.parse(localStorage.getItem("doingList"));
-    xJson.splice(xJson.indexOf(doingData), 1);
-    localStorage.removeItem('doingList');
-    localStorage.setItem("doingList", JSON.stringify(xJson));
-
-    doingCart.innerHTML = " ";
-    doingList = getTodosFromStorage("doingList");
-
 }
 
 //======================== FromDoneToTrash
 const fromDoneToTrash = document.querySelector("#done");
 fromDoneToTrash.addEventListener("click", fDTT);
 function fDTT(e) {
-    let doneData = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector("#span").textContent;
-    let doneTitle = e.target.parentElement.parentElement.parentElement.parentElement.querySelector("span").textContent;
+    if (e.target.className === "glyphicon glyphicon-ok text-danger") {
+        let doneData = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector("#span").textContent;
+        let doneTitle = e.target.parentElement.parentElement.parentElement.parentElement.querySelector("span").textContent;
 
-    xJson = JSON.parse(localStorage.getItem("doneList"));
-    xJson.splice(xJson.indexOf(doneData), 1);
-    localStorage.removeItem('doneList');
-    localStorage.setItem("doneList", JSON.stringify(xJson));
+        xJson = JSON.parse(localStorage.getItem("doneList"));
+        xJson.splice(xJson.indexOf(doneData), 1);
+        localStorage.removeItem('doneList');
+        localStorage.setItem("doneList", JSON.stringify(xJson));
 
-    doneCart.innerHTML = " ";
-    doneList = getTodosFromStorage("doneList");
+        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
+    }
 }
 
 //====================================== FromLocalStorageToCard
@@ -161,14 +173,15 @@ function getTodosFromStorage(y) {
     return x;
 };
 
-//===================================== AddTodoListAndStorage
-function addTodoToStorage() {
-    const whatTodo = document.querySelector("#todo-name");
-    let newTodo = whatTodo.value.trim();
-    if (newTodo != "") {
-        todoList.push(newTodo);
-        createACard(newTodo, "todoList");
-        whatTodo.value = "";
+//===================================== ClearAllListsAndStorage
+const clearAll = document.querySelector("#clear-all");
+function clearAllTodos(e) {
+    if (confirm("Tümünü silmek istediğinizden emin misiniz?")) {
+        while (todoCart.firstElementChild != null) {
+            todoCart.removeChild(todoCart.firstElementChild);
+        }
+        localStorage.removeItem("todoList");
+        localStorage.removeItem("doingList");
+        localStorage.removeItem("doneList");
     }
-    localStorage.setItem("todoList", JSON.stringify(todoList));
 }

@@ -25,15 +25,7 @@
     <div class="">
         <div class="row">
 
-            <div class="col-sm-3">
-
-                <input type="text" class="form-control" id="todo-name">
-                <button type="submit" id="addTodo" onclick="addTodoToStorage()" class="btn btn-primary">Send
-                    message</button>
-
-            </div>
-
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="row card-title">
@@ -53,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="row card-title">
@@ -72,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="row card-title">
@@ -94,7 +86,9 @@
 
         </div>
     </div>
-    <script src="app.js"></script>
+    <button id="clean-all" onclick="clearAllTodos()" style="position: absolute; right: 10px; bottom: 10px;">Clear All
+        Todos</button>
+
 
 
     <!-- Todo Add Modal -->
@@ -112,13 +106,14 @@
                     <form id="form">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">To Do:</label>
-                            <input type="text" name="name" class="form-control" id="todo-names">
+                            <input type="text" name="name" class="form-control" id="todo-name">
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Detail:</label>
                             <textarea class="form-control" name="email" id="todo-details"></textarea>
                         </div>
-                        <button type="submit" onclick="rvalidate()" class="btn btn-primary">Send message</button>
+                        <button type="submit" id="submitBtn" data-toggle="modal" class="btn btn-primary">Send
+                            message</button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -128,17 +123,8 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        document.getElementById("form").addEventListener("submit", function (e) {
-            var form = this;
-            console.log(form.name.value);
-            if (form.name.value == "") {
-                alert("Please enter your Name");
-                form.name.focus();
-            }
-            e.preventDefault();
-        }, false);
-    </script>
+
 </body>
+<script src="app.js"></script>
 
 </html>
