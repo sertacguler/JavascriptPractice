@@ -1,1 +1,1 @@
-Empty
+ES6 STATIC 

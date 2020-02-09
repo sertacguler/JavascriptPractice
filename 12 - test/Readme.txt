@@ -1,1 +1,1 @@
-Fetch and Promise HTTP request - GET/POST/PUT/DELETE
+Fetch and Promise HTTP request- GET/POST/PUT/DELETE
